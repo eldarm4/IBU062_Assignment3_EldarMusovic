@@ -43,4 +43,27 @@ Laptop:
     IP Address: 168.90.0.5
 
 
+DHCP details:
 
+configure terminal                          # Enter global configuration mode.
+ip dhcp pool FirstSwitch                    # Create a DHCP pool named "FirstSwitch."
+network 168.90.0.0 255.255.0.0             # Specify the network range for the DHCP pool.
+default-router 168.90.0.1                  # Set the default gateway for the DHCP pool.
+exit                                       # Exit DHCP configuration mode.
+configure terminal                          # Enter global configuration mode again.
+ip dhcp pool SecondSwitch                   # Create another DHCP pool named "SecondSwitch."
+network 210.3.14.0 255.255.255.0           # Specify the network range for this DHCP pool.
+default-router 210.3.14.1                  # Set the default gateway for the second DHCP pool.
+exit                                       # Exit DHCP configuration mode.
+configure terminal                          # Re-enter global configuration mode.
+ip dhcp excluded-address 168.90.0.1        # Exclude the default gateway of "FirstSwitch" from the DHCP pool.
+ip dhcp excluded-address 210.3.14.1        # Exclude the default gateway of "SecondSwitch" from the DHCP pool.
+exit                                       # Exit configuration mode.
+configure terminal                          # Enter global configuration mode again.
+interface GigabitEthernet0/0                # Select the first interface (GigabitEthernet0/0).
+ip address 168.90.0.1 255.255.0.0          # Assign an IP address and subnet mask to the interface.
+no shutdown                                # Activate the interface.
+interface GigabitEthernet0/1                # Select the second interface (GigabitEthernet0/1).
+ip address 210.3.14.1 255.255.255.0        # Assign an IP address and subnet mask to the interface.
+no shutdown                                # Activate the interface.
+exit                                       # Exit interface configuration mode.
